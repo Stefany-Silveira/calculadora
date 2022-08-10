@@ -1,5 +1,6 @@
 package br.com.stefany.calc.visao;
 
+import br.com.stefany.calc.modelo.Memoria;
 import br.com.stefany.calc.visao.Botao;
 
 import javax.swing.*;
@@ -71,7 +72,7 @@ public class Teclado extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() instanceof JButton) {
             JButton botao = (JButton)  e.getSource();
-            System.out.println(botao.getText());
+            Memoria.getInstancia().processarComando(botao.getText());
         }
     }
 }
