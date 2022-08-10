@@ -5,7 +5,6 @@ import java.awt.*;
 
 @SuppressWarnings("serial ")
 public class Botao extends JButton {
-
     public Botao(String texto, Color cor) {
         setText(texto);
         setFont(new Font("courier", Font.PLAIN, 25));
@@ -14,5 +13,4 @@ public class Botao extends JButton {
         setForeground(Color.WHITE);
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
     }
-
 }
