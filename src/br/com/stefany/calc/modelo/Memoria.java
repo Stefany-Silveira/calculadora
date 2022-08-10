@@ -8,7 +8,7 @@ import java.util.concurrent.RecursiveTask;
 public class Memoria {
 
     private enum TipoComando {
-        ZERAR, SINAL, NUMERO, DIV, MULT, SUB, SOMA, IGUAL, VIRGULA;
+        ZERAR, NUMERO, DIV, MULT, SUB, SOMA, IGUAL, VIRGULA, INVERTER, PERCENT;
     };
 
     private static final Memoria instancia = new Memoria();
@@ -43,17 +43,18 @@ public class Memoria {
 
         if(tipoComando == null) {
             return;
+
         } else if(tipoComando == TipoComando.ZERAR) {
             textoAtual = "";
             textoBuffer = "";
             substituir = false;
             ultimaOperacao = null;
-        } else if(tipoComando == TipoComando.SINAL && textoAtual.contains("-")) {
+
+        } else if (tipoComando == TipoComando.INVERTER && textoAtual.contains("-")) {
             textoAtual = textoAtual.substring(1);
-        } else if(tipoComando == TipoComando.SINAL && !textoAtual.contains("-")) {
+        } else if (tipoComando == TipoComando.INVERTER && !textoAtual.contains("-")) {
             textoAtual = "-" + textoAtual;
-        } else if(tipoComando == TipoComando.NUMERO
-                || tipoComando == TipoComando.VIRGULA) {
+        } else if (tipoComando == TipoComando.NUMERO || tipoComando == TipoComando.VIRGULA) {
             textoAtual = substituir ? texto : textoAtual + texto;
             substituir = false;
         } else {
@@ -87,6 +88,8 @@ public class Memoria {
             resultado = numeroBuffer * numeroAtual;
         } else if(ultimaOperacao == TipoComando.DIV) {
             resultado = numeroBuffer / numeroAtual;
+        } else if (ultimaOperacao == TipoComando.PERCENT) {
+            resultado = numeroBuffer / 100;
         }
 
         String texto = Double.toString(resultado).replace(".", ",");
@@ -116,8 +119,10 @@ public class Memoria {
                 return TipoComando.SUB;
             } else if("=".equals(texto)) {
                 return TipoComando.IGUAL;
+            } else if ("%".equals(texto)) {
+                return TipoComando.PERCENT;
             } else if("±".equals(texto)) {
-                return TipoComando.SINAL;
+                return TipoComando.INVERTER;
             } else if(",".equals(texto)
                     && !textoAtual.contains(",")) {
                 return TipoComando.VIRGULA;
